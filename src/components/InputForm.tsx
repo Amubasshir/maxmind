@@ -549,7 +549,11 @@ export default function InputForm({
 
         {/* Action Buttons */}
         <div className="flex gap-4">
-          <Button type="submit" disabled={isLoading} className="flex-1">
+          <Button
+            type="submit"
+            disabled={isLoading}
+            className="flex-1 cursor-pointer"
+          >
             {isLoading ? 'Analyzing...' : 'Analyze Fraud Risk'}
           </Button>
 
@@ -558,6 +562,7 @@ export default function InputForm({
             variant="outline"
             onClick={handleClearForm}
             disabled={isLoading}
+            className="cursor-pointer"
           >
             Clear Form
           </Button>

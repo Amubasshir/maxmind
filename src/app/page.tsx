@@ -10,10 +10,12 @@ export default function Home() {
   const [response, setResponse] = useState<MaxMindResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | undefined>();
+  const [formError, setFormError] = useState<string | undefined>();
 
   const handleFormSubmit = async (data: FormData) => {
     setIsLoading(true);
     setError(undefined);
+    setFormError(undefined);
     setResponse(null);
 
     try {
@@ -37,6 +39,7 @@ export default function Home() {
       const errorMessage =
         err instanceof Error ? err.message : 'An error occurred';
       setError(errorMessage);
+      setFormError(errorMessage);
       toast.error(errorMessage);
     } finally {
       setIsLoading(false);
@@ -68,7 +71,7 @@ export default function Home() {
         <InputForm
           onSubmit={handleFormSubmit}
           isLoading={isLoading}
-          error={error}
+          error={formError}
         />
 
         {/* Loading State */}
