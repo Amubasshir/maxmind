@@ -31,20 +31,31 @@ export default function ResultDisplay({
       <Card className="p-6">
         <h3 className="text-lg font-semibold mb-4">Risk Score</h3>
         <div className="flex items-center justify-center">
-          <RiskScoreBadge score={response.risk_score} />
+          <RiskScoreBadge score={response?.risk_score} />
         </div>
       </Card>
 
       {/* Risk Score Reasons */}
       <Card className="p-6">
         <h3 className="text-lg font-semibold mb-4">Risk Score Reasons</h3>
-        {response.risk_score_reasons &&
-        response.risk_score_reasons.length > 0 ? (
-          <ul className="list-disc list-inside space-y-2">
-            {response.risk_score_reasons.map((reason, index) => (
-              <li key={index}>{reason}</li>
+        {response?.risk_score_reasons &&
+        response?.risk_score_reasons.length > 0 ? (
+          <div className="space-y-4">
+            {response?.risk_score_reasons.map((reason, index) => (
+              <div key={index} className="border-b pb-3 last:border-b-0">
+                <div className="font-medium mb-2">
+                  Multiplier: {reason.multiplier}
+                </div>
+                <ul className="list-disc list-inside space-y-1 pl-4">
+                  {reason.reasons.map((subReason, subIndex) => (
+                    <li key={subIndex} className="text-gray-600">
+                      {subReason.reason}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
-          </ul>
+          </div>
         ) : (
           <p className="text-gray-500">No risk score reasons available</p>
         )}
@@ -57,67 +68,67 @@ export default function ResultDisplay({
           <div>
             <span className="font-medium">IP Country:</span>{' '}
             <span className="text-gray-600">
-              {response.ip_address?.country?.iso_code ?? 'N/A'}
+              {response?.ip_address?.country?.iso_code ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">IP City:</span>{' '}
             <span className="text-gray-600">
-              {response.ip_address?.city?.names?.en ?? 'N/A'}
+              {response?.ip_address?.city?.names?.en ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">IP Postal Code:</span>{' '}
             <span className="text-gray-600">
-              {response.ip_address?.postal?.code ?? 'N/A'}
+              {response?.ip_address?.postal?.code ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">IP Latitude:</span>{' '}
             <span className="text-gray-600">
-              {response.ip_address?.location?.latitude ?? 'N/A'}
+              {response?.ip_address?.location?.latitude ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">IP Longitude:</span>{' '}
             <span className="text-gray-600">
-              {response.ip_address?.location?.longitude ?? 'N/A'}
+              {response?.ip_address?.location?.longitude ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">IP Time Zone:</span>{' '}
             <span className="text-gray-600">
-              {response.ip_address?.location?.time_zone ?? 'N/A'}
+              {response?.ip_address?.location?.time_zone ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">IP ISP:</span>{' '}
             <span className="text-gray-600">
-              {response.ip_address?.traits?.isp ?? 'N/A'}
+              {response?.ip_address?.traits?.isp ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">IP Organization:</span>{' '}
             <span className="text-gray-600">
-              {response.ip_address?.traits?.organization ?? 'N/A'}
+              {response?.ip_address?.traits?.organization ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">IP Domain:</span>{' '}
             <span className="text-gray-600">
-              {response.ip_address?.traits?.domain ?? 'N/A'}
+              {response?.ip_address?.traits?.domain ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">IP User Type:</span>{' '}
             <span className="text-gray-600">
-              {response.ip_address?.traits?.user_type ?? 'N/A'}
+              {response?.ip_address?.traits?.user_type ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">IP Risk:</span>{' '}
             <span className="text-gray-600">
-              {response.ip_address?.risk ?? 'N/A'}
+              {response?.ip_address?.risk ?? 'N/A'}
             </span>
           </div>
         </div>
@@ -130,7 +141,7 @@ export default function ResultDisplay({
           <div>
             <span className="font-medium">Is Anonymous:</span>{' '}
             <span className="text-gray-600">
-              {(response.ip_address?.traits?.is_anonymous ?? false)
+              {(response?.ip_address?.traits?.is_anonymous ?? false)
                 ? 'Yes'
                 : 'No'}
             </span>
@@ -138,7 +149,7 @@ export default function ResultDisplay({
           <div>
             <span className="font-medium">Is Anonymous VPN:</span>{' '}
             <span className="text-gray-600">
-              {(response.ip_address?.traits?.is_anonymous_vpn ?? false)
+              {(response?.ip_address?.traits?.is_anonymous_vpn ?? false)
                 ? 'Yes'
                 : 'No'}
             </span>
@@ -146,7 +157,7 @@ export default function ResultDisplay({
           <div>
             <span className="font-medium">Is Hosting Provider:</span>{' '}
             <span className="text-gray-600">
-              {(response.ip_address?.traits?.is_hosting_provider ?? false)
+              {(response?.ip_address?.traits?.is_hosting_provider ?? false)
                 ? 'Yes'
                 : 'No'}
             </span>
@@ -154,7 +165,7 @@ export default function ResultDisplay({
           <div>
             <span className="font-medium">Is Public Proxy:</span>{' '}
             <span className="text-gray-600">
-              {(response.ip_address?.traits?.is_public_proxy ?? false)
+              {(response?.ip_address?.traits?.is_public_proxy ?? false)
                 ? 'Yes'
                 : 'No'}
             </span>
@@ -162,7 +173,7 @@ export default function ResultDisplay({
           <div>
             <span className="font-medium">Is Residential Proxy:</span>{' '}
             <span className="text-gray-600">
-              {(response.ip_address?.traits?.is_residential_proxy ?? false)
+              {(response?.ip_address?.traits?.is_residential_proxy ?? false)
                 ? 'Yes'
                 : 'No'}
             </span>
@@ -170,7 +181,7 @@ export default function ResultDisplay({
           <div>
             <span className="font-medium">Is Tor Exit Node:</span>{' '}
             <span className="text-gray-600">
-              {(response.ip_address?.traits?.is_tor_exit_node ?? false)
+              {(response?.ip_address?.traits?.is_tor_exit_node ?? false)
                 ? 'Yes'
                 : 'No'}
             </span>
@@ -185,43 +196,69 @@ export default function ResultDisplay({
           <div>
             <span className="font-medium">Email Address:</span>{' '}
             <span className="text-gray-600">
-              {response.email?.address ?? 'N/A'}
+              {response?.email?.address ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">Email Domain:</span>{' '}
             <span className="text-gray-600">
-              {response.email?.domain ?? 'N/A'}
+              {typeof response?.email?.domain === 'string'
+                ? response?.email?.domain
+                : (response?.email?.domain?.domain ?? 'N/A')}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Domain First Seen:</span>{' '}
+            <span className="text-gray-600">
+              {response?.email?.domain?.first_seen ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Domain Risk:</span>{' '}
+            <span className="text-gray-600">
+              {response?.email?.domain?.risk ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Domain Volume:</span>{' '}
+            <span className="text-gray-600">
+              {response?.email?.domain?.volume ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">Email First Seen:</span>{' '}
             <span className="text-gray-600">
-              {response.email?.first_seen ?? 'N/A'}
+              {response?.email?.first_seen ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">Email Is Free:</span>{' '}
             <span className="text-gray-600">
-              {(response.email?.is_free ?? false) ? 'Yes' : 'No'}
+              {(response?.email?.is_free ?? false) ? 'Yes' : 'No'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Email Is Disposable:</span>{' '}
+            <span className="text-gray-600">
+              {(response?.email?.is_disposable ?? false) ? 'Yes' : 'No'}
             </span>
           </div>
           <div>
             <span className="font-medium">Email Is High Risk:</span>{' '}
             <span className="text-gray-600">
-              {(response.email?.is_high_risk ?? false) ? 'Yes' : 'No'}
+              {(response?.email?.is_high_risk ?? false) ? 'Yes' : 'No'}
             </span>
           </div>
           <div>
             <span className="font-medium">Email Confidence:</span>{' '}
             <span className="text-gray-600">
-              {response.email?.confidence ?? 'N/A'}
+              {response?.email?.confidence ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">Email Risk:</span>{' '}
             <span className="text-gray-600">
-              {response.email?.risk ?? 'N/A'}
+              {response?.email?.risk ?? 'N/A'}
             </span>
           </div>
         </div>
@@ -236,19 +273,19 @@ export default function ResultDisplay({
           <div>
             <span className="font-medium">Billing Is in IP Country:</span>{' '}
             <span className="text-gray-600">
-              {(response.billing?.is_in_ip_country ?? false) ? 'Yes' : 'No'}
+              {(response?.billing?.is_in_ip_country ?? false) ? 'Yes' : 'No'}
             </span>
           </div>
           <div>
             <span className="font-medium">Billing Latitude:</span>{' '}
             <span className="text-gray-600">
-              {response.billing?.latitude ?? 'N/A'}
+              {response?.billing?.latitude ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">Billing Longitude:</span>{' '}
             <span className="text-gray-600">
-              {response.billing?.longitude ?? 'N/A'}
+              {response?.billing?.longitude ?? 'N/A'}
             </span>
           </div>
           <div>
@@ -256,7 +293,7 @@ export default function ResultDisplay({
               Billing Distance to IP Location:
             </span>{' '}
             <span className="text-gray-600">
-              {response.billing?.distance_to_ip_location ?? 'N/A'}
+              {response?.billing?.distance_to_ip_location ?? 'N/A'}
             </span>
           </div>
         </div>
@@ -271,19 +308,19 @@ export default function ResultDisplay({
           <div>
             <span className="font-medium">Shipping Is in IP Country:</span>{' '}
             <span className="text-gray-600">
-              {(response.shipping?.is_in_ip_country ?? false) ? 'Yes' : 'No'}
+              {(response?.shipping?.is_in_ip_country ?? false) ? 'Yes' : 'No'}
             </span>
           </div>
           <div>
             <span className="font-medium">Shipping Latitude:</span>{' '}
             <span className="text-gray-600">
-              {response.shipping?.latitude ?? 'N/A'}
+              {response?.shipping?.latitude ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">Shipping Longitude:</span>{' '}
             <span className="text-gray-600">
-              {response.shipping?.longitude ?? 'N/A'}
+              {response?.shipping?.longitude ?? 'N/A'}
             </span>
           </div>
           <div>
@@ -291,7 +328,7 @@ export default function ResultDisplay({
               Shipping Distance to IP Location:
             </span>{' '}
             <span className="text-gray-600">
-              {response.shipping?.distance_to_ip_location ?? 'N/A'}
+              {response?.shipping?.distance_to_ip_location ?? 'N/A'}
             </span>
           </div>
         </div>
@@ -304,53 +341,88 @@ export default function ResultDisplay({
           <div>
             <span className="font-medium">Billing Phone Number:</span>{' '}
             <span className="text-gray-600">
-              {response.billing_phone?.number ?? 'N/A'}
+              {response?.billing_phone?.number ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">Billing Phone Country:</span>{' '}
             <span className="text-gray-600">
-              {response.billing_phone?.country?.name ?? 'N/A'}
+              {response?.billing_phone?.country?.name ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">Billing Phone Type:</span>{' '}
             <span className="text-gray-600">
-              {response.billing_phone?.type ?? 'N/A'}
+              {response?.billing_phone?.type ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">Billing Phone Is Valid:</span>{' '}
             <span className="text-gray-600">
-              {(response.billing_phone?.is_valid ?? false) ? 'Yes' : 'No'}
+              {(response?.billing_phone?.is_valid ?? false) ? 'Yes' : 'No'}
             </span>
           </div>
           <div>
             <span className="font-medium">Shipping Phone Number:</span>{' '}
             <span className="text-gray-600">
-              {response.shipping_phone?.number ?? 'N/A'}
+              {response?.shipping_phone?.number ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">Shipping Phone Country:</span>{' '}
             <span className="text-gray-600">
-              {response.shipping_phone?.country?.name ?? 'N/A'}
+              {response?.shipping_phone?.country?.name ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">Shipping Phone Type:</span>{' '}
             <span className="text-gray-600">
-              {response.shipping_phone?.type ?? 'N/A'}
+              {response?.shipping_phone?.type ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">Shipping Phone Is Valid:</span>{' '}
             <span className="text-gray-600">
-              {(response.shipping_phone?.is_valid ?? false) ? 'Yes' : 'No'}
+              {(response?.shipping_phone?.is_valid ?? false) ? 'Yes' : 'No'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Shipping Phone Operator:</span>{' '}
+            <span className="text-gray-600">
+              {response?.shipping_phone?.network_operator ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Shipping Phone Is VOIP:</span>{' '}
+            <span className="text-gray-600">
+              {(response?.shipping_phone?.is_voip ?? false) ? 'Yes' : 'No'}
             </span>
           </div>
         </div>
       </Card>
+
+      {/* Warnings */}
+      {response?.warnings && response.warnings.length > 0 && (
+        <Card className="p-6">
+          <h3 className="text-lg font-semibold mb-4">Warnings</h3>
+          <div className="space-y-2">
+            {response.warnings.map((warning, index) => (
+              <div
+                key={index}
+                className="text-sm text-yellow-600 border-l-4 border-yellow-400 pl-3 py-1"
+              >
+                <p className="font-medium">{warning.code}</p>
+                <p className="text-gray-600">{warning.warning}</p>
+                {warning.input_pointer && (
+                  <p className="text-xs text-gray-500 mt-1">
+                    Field: {warning.input_pointer}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
     </div>
   );
 }
