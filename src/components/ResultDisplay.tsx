@@ -1,0 +1,356 @@
+'use client';
+
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import type { MaxMindResponse } from '@/types/minfraud';
+import RiskScoreBadge from './RiskScoreBadge';
+
+interface ResultDisplayProps {
+  response: MaxMindResponse | null;
+  onCopyJson: () => void;
+}
+
+export default function ResultDisplay({
+  response,
+  onCopyJson,
+}: ResultDisplayProps) {
+  if (!response) {
+    return null;
+  }
+
+  return (
+    <div className="space-y-6 mt-6">
+      {/* Copy JSON Button */}
+      <div className="flex justify-end">
+        <Button variant="outline" onClick={onCopyJson}>
+          Copy JSON
+        </Button>
+      </div>
+
+      {/* Risk Score */}
+      <Card className="p-6">
+        <h3 className="text-lg font-semibold mb-4">Risk Score</h3>
+        <div className="flex items-center justify-center">
+          <RiskScoreBadge score={response.risk_score} />
+        </div>
+      </Card>
+
+      {/* Risk Score Reasons */}
+      <Card className="p-6">
+        <h3 className="text-lg font-semibold mb-4">Risk Score Reasons</h3>
+        {response.risk_score_reasons &&
+        response.risk_score_reasons.length > 0 ? (
+          <ul className="list-disc list-inside space-y-2">
+            {response.risk_score_reasons.map((reason, index) => (
+              <li key={index}>{reason}</li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-gray-500">No risk score reasons available</p>
+        )}
+      </Card>
+
+      {/* IP Address Analysis */}
+      <Card className="p-6">
+        <h3 className="text-lg font-semibold mb-4">IP Address Analysis</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <span className="font-medium">IP Country:</span>{' '}
+            <span className="text-gray-600">
+              {response.ip_address?.country?.iso_code ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">IP City:</span>{' '}
+            <span className="text-gray-600">
+              {response.ip_address?.city?.names?.en ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">IP Postal Code:</span>{' '}
+            <span className="text-gray-600">
+              {response.ip_address?.postal?.code ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">IP Latitude:</span>{' '}
+            <span className="text-gray-600">
+              {response.ip_address?.location?.latitude ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">IP Longitude:</span>{' '}
+            <span className="text-gray-600">
+              {response.ip_address?.location?.longitude ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">IP Time Zone:</span>{' '}
+            <span className="text-gray-600">
+              {response.ip_address?.location?.time_zone ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">IP ISP:</span>{' '}
+            <span className="text-gray-600">
+              {response.ip_address?.traits?.isp ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">IP Organization:</span>{' '}
+            <span className="text-gray-600">
+              {response.ip_address?.traits?.organization ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">IP Domain:</span>{' '}
+            <span className="text-gray-600">
+              {response.ip_address?.traits?.domain ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">IP User Type:</span>{' '}
+            <span className="text-gray-600">
+              {response.ip_address?.traits?.user_type ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">IP Risk:</span>{' '}
+            <span className="text-gray-600">
+              {response.ip_address?.risk ?? 'N/A'}
+            </span>
+          </div>
+        </div>
+      </Card>
+
+      {/* IP Anonymity Flags */}
+      <Card className="p-6">
+        <h3 className="text-lg font-semibold mb-4">IP Anonymity Flags</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <span className="font-medium">Is Anonymous:</span>{' '}
+            <span className="text-gray-600">
+              {(response.ip_address?.traits?.is_anonymous ?? false)
+                ? 'Yes'
+                : 'No'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Is Anonymous VPN:</span>{' '}
+            <span className="text-gray-600">
+              {(response.ip_address?.traits?.is_anonymous_vpn ?? false)
+                ? 'Yes'
+                : 'No'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Is Hosting Provider:</span>{' '}
+            <span className="text-gray-600">
+              {(response.ip_address?.traits?.is_hosting_provider ?? false)
+                ? 'Yes'
+                : 'No'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Is Public Proxy:</span>{' '}
+            <span className="text-gray-600">
+              {(response.ip_address?.traits?.is_public_proxy ?? false)
+                ? 'Yes'
+                : 'No'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Is Residential Proxy:</span>{' '}
+            <span className="text-gray-600">
+              {(response.ip_address?.traits?.is_residential_proxy ?? false)
+                ? 'Yes'
+                : 'No'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Is Tor Exit Node:</span>{' '}
+            <span className="text-gray-600">
+              {(response.ip_address?.traits?.is_tor_exit_node ?? false)
+                ? 'Yes'
+                : 'No'}
+            </span>
+          </div>
+        </div>
+      </Card>
+
+      {/* Email Analysis */}
+      <Card className="p-6">
+        <h3 className="text-lg font-semibold mb-4">Email Analysis</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <span className="font-medium">Email Address:</span>{' '}
+            <span className="text-gray-600">
+              {response.email?.address ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Email Domain:</span>{' '}
+            <span className="text-gray-600">
+              {response.email?.domain ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Email First Seen:</span>{' '}
+            <span className="text-gray-600">
+              {response.email?.first_seen ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Email Is Free:</span>{' '}
+            <span className="text-gray-600">
+              {(response.email?.is_free ?? false) ? 'Yes' : 'No'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Email Is High Risk:</span>{' '}
+            <span className="text-gray-600">
+              {(response.email?.is_high_risk ?? false) ? 'Yes' : 'No'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Email Confidence:</span>{' '}
+            <span className="text-gray-600">
+              {response.email?.confidence ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Email Risk:</span>{' '}
+            <span className="text-gray-600">
+              {response.email?.risk ?? 'N/A'}
+            </span>
+          </div>
+        </div>
+      </Card>
+
+      {/* Billing Address Verification */}
+      <Card className="p-6">
+        <h3 className="text-lg font-semibold mb-4">
+          Billing Address Verification
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <span className="font-medium">Billing Is in IP Country:</span>{' '}
+            <span className="text-gray-600">
+              {(response.billing?.is_in_ip_country ?? false) ? 'Yes' : 'No'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Billing Latitude:</span>{' '}
+            <span className="text-gray-600">
+              {response.billing?.latitude ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Billing Longitude:</span>{' '}
+            <span className="text-gray-600">
+              {response.billing?.longitude ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">
+              Billing Distance to IP Location:
+            </span>{' '}
+            <span className="text-gray-600">
+              {response.billing?.distance_to_ip_location ?? 'N/A'}
+            </span>
+          </div>
+        </div>
+      </Card>
+
+      {/* Shipping Address Verification */}
+      <Card className="p-6">
+        <h3 className="text-lg font-semibold mb-4">
+          Shipping Address Verification
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <span className="font-medium">Shipping Is in IP Country:</span>{' '}
+            <span className="text-gray-600">
+              {(response.shipping?.is_in_ip_country ?? false) ? 'Yes' : 'No'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Shipping Latitude:</span>{' '}
+            <span className="text-gray-600">
+              {response.shipping?.latitude ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Shipping Longitude:</span>{' '}
+            <span className="text-gray-600">
+              {response.shipping?.longitude ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">
+              Shipping Distance to IP Location:
+            </span>{' '}
+            <span className="text-gray-600">
+              {response.shipping?.distance_to_ip_location ?? 'N/A'}
+            </span>
+          </div>
+        </div>
+      </Card>
+
+      {/* Phone Analysis */}
+      <Card className="p-6">
+        <h3 className="text-lg font-semibold mb-4">Phone Analysis</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <span className="font-medium">Billing Phone Number:</span>{' '}
+            <span className="text-gray-600">
+              {response.billing_phone?.number ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Billing Phone Country:</span>{' '}
+            <span className="text-gray-600">
+              {response.billing_phone?.country?.name ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Billing Phone Type:</span>{' '}
+            <span className="text-gray-600">
+              {response.billing_phone?.type ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Billing Phone Is Valid:</span>{' '}
+            <span className="text-gray-600">
+              {(response.billing_phone?.is_valid ?? false) ? 'Yes' : 'No'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Shipping Phone Number:</span>{' '}
+            <span className="text-gray-600">
+              {response.shipping_phone?.number ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Shipping Phone Country:</span>{' '}
+            <span className="text-gray-600">
+              {response.shipping_phone?.country?.name ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Shipping Phone Type:</span>{' '}
+            <span className="text-gray-600">
+              {response.shipping_phone?.type ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">Shipping Phone Is Valid:</span>{' '}
+            <span className="text-gray-600">
+              {(response.shipping_phone?.is_valid ?? false) ? 'Yes' : 'No'}
+            </span>
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+}

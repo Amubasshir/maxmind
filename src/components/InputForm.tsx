@@ -73,7 +73,8 @@ export default function InputForm({
       Object.keys(billingValues).forEach((key) => {
         if (key.startsWith('billing_')) {
           const shippingKey = key.replace('billing_', 'shipping_');
-          newShippingValues[shippingKey as keyof FormData] = billingValues[key];
+          newShippingValues[shippingKey as keyof FormData] =
+            billingValues[key as keyof FormData];
         }
       });
       setShippingFormState(newShippingValues);
@@ -173,7 +174,9 @@ export default function InputForm({
               <Input
                 id="full_name"
                 value={formData.full_name || ''}
-                onChange={(e) => handleInputChange('full_name', e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleInputChange('full_name', e.target.value)
+                }
                 placeholder="John Doe"
               />
             </div>
@@ -184,7 +187,9 @@ export default function InputForm({
                 id="email"
                 type="email"
                 value={formData.email || ''}
-                onChange={(e) => handleInputChange('email', e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleInputChange('email', e.target.value)
+                }
                 placeholder="john@example.com"
                 className={fieldErrors.email ? 'border-red-500' : ''}
               />
@@ -198,7 +203,9 @@ export default function InputForm({
               <Input
                 id="phone"
                 value={formData.phone || ''}
-                onChange={(e) => handleInputChange('phone', e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleInputChange('phone', e.target.value)
+                }
                 placeholder="+1 555-123-4567"
               />
             </div>
@@ -215,7 +222,7 @@ export default function InputForm({
               <Input
                 id="billing_first_name"
                 value={formData.billing_first_name || ''}
-                onChange={(e) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleInputChange('billing_first_name', e.target.value)
                 }
                 placeholder="John"
@@ -227,7 +234,7 @@ export default function InputForm({
               <Input
                 id="billing_last_name"
                 value={formData.billing_last_name || ''}
-                onChange={(e) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleInputChange('billing_last_name', e.target.value)
                 }
                 placeholder="Doe"
@@ -239,7 +246,7 @@ export default function InputForm({
               <Input
                 id="billing_address1"
                 value={formData.billing_address1 || ''}
-                onChange={(e) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleInputChange('billing_address1', e.target.value)
                 }
                 placeholder="123 Main St"
@@ -251,7 +258,7 @@ export default function InputForm({
               <Input
                 id="billing_address2"
                 value={formData.billing_address2 || ''}
-                onChange={(e) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleInputChange('billing_address2', e.target.value)
                 }
                 placeholder="Apt 4B"
@@ -263,7 +270,7 @@ export default function InputForm({
               <Input
                 id="billing_city"
                 value={formData.billing_city || ''}
-                onChange={(e) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleInputChange('billing_city', e.target.value)
                 }
                 placeholder="New York"
@@ -275,7 +282,7 @@ export default function InputForm({
               <Input
                 id="billing_region"
                 value={formData.billing_region || ''}
-                onChange={(e) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleInputChange('billing_region', e.target.value)
                 }
                 placeholder="NY"
@@ -287,7 +294,7 @@ export default function InputForm({
               <Input
                 id="billing_postal"
                 value={formData.billing_postal || ''}
-                onChange={(e) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleInputChange('billing_postal', e.target.value)
                 }
                 placeholder="10001"
@@ -299,7 +306,7 @@ export default function InputForm({
               <Input
                 id="billing_country"
                 value={formData.billing_country || ''}
-                onChange={(e) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleInputChange('billing_country', e.target.value)
                 }
                 placeholder="US"
@@ -312,7 +319,7 @@ export default function InputForm({
               <Input
                 id="billing_phone"
                 value={formData.billing_phone || ''}
-                onChange={(e) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleInputChange('billing_phone', e.target.value)
                 }
                 placeholder="+1 555-123-4567"
@@ -330,8 +337,8 @@ export default function InputForm({
             <Checkbox
               id="same_as_billing"
               checked={sameAsBilling}
-              onCheckedChange={(checked) =>
-                handleSameAsBillingChange(checked as boolean)
+              onCheckedChange={(checked: boolean) =>
+                handleSameAsBillingChange(checked)
               }
             />
             <Label htmlFor="same_as_billing" className="cursor-pointer">
@@ -345,7 +352,7 @@ export default function InputForm({
               <Input
                 id="shipping_first_name"
                 value={getShippingValue('first_name')}
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   if (!sameAsBilling) {
                     setShippingFormState((prev) => ({
                       ...prev,
@@ -364,7 +371,7 @@ export default function InputForm({
               <Input
                 id="shipping_last_name"
                 value={getShippingValue('last_name')}
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   if (!sameAsBilling) {
                     setShippingFormState((prev) => ({
                       ...prev,
@@ -383,7 +390,7 @@ export default function InputForm({
               <Input
                 id="shipping_address1"
                 value={getShippingValue('address1')}
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   if (!sameAsBilling) {
                     setShippingFormState((prev) => ({
                       ...prev,
@@ -402,7 +409,7 @@ export default function InputForm({
               <Input
                 id="shipping_address2"
                 value={getShippingValue('address2')}
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   if (!sameAsBilling) {
                     setShippingFormState((prev) => ({
                       ...prev,
@@ -421,7 +428,7 @@ export default function InputForm({
               <Input
                 id="shipping_city"
                 value={getShippingValue('city')}
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   if (!sameAsBilling) {
                     setShippingFormState((prev) => ({
                       ...prev,
@@ -440,7 +447,7 @@ export default function InputForm({
               <Input
                 id="shipping_region"
                 value={getShippingValue('region')}
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   if (!sameAsBilling) {
                     setShippingFormState((prev) => ({
                       ...prev,
@@ -459,7 +466,7 @@ export default function InputForm({
               <Input
                 id="shipping_postal"
                 value={getShippingValue('postal')}
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   if (!sameAsBilling) {
                     setShippingFormState((prev) => ({
                       ...prev,
@@ -478,7 +485,7 @@ export default function InputForm({
               <Input
                 id="shipping_country"
                 value={getShippingValue('country')}
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   if (!sameAsBilling) {
                     setShippingFormState((prev) => ({
                       ...prev,
@@ -498,7 +505,7 @@ export default function InputForm({
               <Input
                 id="shipping_phone"
                 value={getShippingValue('phone')}
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   if (!sameAsBilling) {
                     setShippingFormState((prev) => ({
                       ...prev,
@@ -528,7 +535,9 @@ export default function InputForm({
             <Input
               id="ip_address"
               value={formData.ip_address || ''}
-              onChange={(e) => handleInputChange('ip_address', e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleInputChange('ip_address', e.target.value)
+              }
               placeholder="192.168.1.1 or 2001:0db8:85a3:0000:0000:8a2e:0370:7334"
               className={fieldErrors.ip_address ? 'border-red-500' : ''}
             />
