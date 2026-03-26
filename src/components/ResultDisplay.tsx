@@ -194,19 +194,11 @@ export default function ResultDisplay({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <span className="font-medium">Email Address:</span>{' '}
-            <span className="text-gray-600">
-              <span className="text-xs text-gray-500">
-                (Not returned by API for privacy)
-              </span>
-            </span>
+            <span className="text-gray-600">N/A</span>
           </div>
           <div>
             <span className="font-medium">Email Domain:</span>{' '}
-            <span className="text-gray-600">
-              <span className="text-xs text-gray-500">
-                (Not returned by API for privacy)
-              </span>
-            </span>
+            <span className="text-gray-600">N/A</span>
           </div>
           <div>
             <span className="font-medium">Domain First Seen:</span>{' '}
@@ -341,16 +333,12 @@ export default function ResultDisplay({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <span className="font-medium">Billing Phone Number:</span>{' '}
-            <span className="text-gray-600">
-              <span className="text-xs text-gray-500">
-                (Not returned by API for privacy)
-              </span>
-            </span>
+            <span className="text-gray-600">N/A</span>
           </div>
           <div>
             <span className="font-medium">Billing Phone Country:</span>{' '}
             <span className="text-gray-600">
-              {response?.billing_phone?.country?.name ?? 'N/A'}
+              {response?.billing_phone?.country ?? 'N/A'}
             </span>
           </div>
           <div>
@@ -367,16 +355,12 @@ export default function ResultDisplay({
           </div>
           <div>
             <span className="font-medium">Shipping Phone Number:</span>{' '}
-            <span className="text-gray-600">
-              <span className="text-xs text-gray-500">
-                (Not returned by API for privacy)
-              </span>
-            </span>
+            <span className="text-gray-600">N/A</span>
           </div>
           <div>
             <span className="font-medium">Shipping Phone Country:</span>{' '}
             <span className="text-gray-600">
-              {response?.shipping_phone?.country?.name ?? 'N/A'}
+              {response?.shipping_phone?.country ?? 'N/A'}
             </span>
           </div>
           <div>

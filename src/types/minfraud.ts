@@ -132,11 +132,7 @@ export interface AddressVerification {
 // Phone Analysis
 // Note: MaxMind API does NOT return the phone number for privacy/security
 export interface PhoneData {
-  country?: {
-    iso_code?: string;
-    name?: string;
-    confidence?: number;
-  };
+  country?: string; // ISO code (e.g., "BD" for Bangladesh)
   number_type?: string;
   is_valid?: boolean;
   is_mobile?: boolean;
