@@ -52,9 +52,6 @@ export interface MaxMindPayload {
   email?: {
     address: string;
   };
-  phone?: {
-    number: string;
-  };
   billing?: AddressObject;
   shipping?: AddressObject;
 }
@@ -124,6 +121,7 @@ export interface AddressVerification {
   latitude?: number;
   longitude?: number;
   distance_to_ip_location?: number;
+  distance_to_billing_address?: number;
   is_postal_in_city?: boolean;
   is_high_risk?: boolean;
   risk?: number;
@@ -169,10 +167,14 @@ export interface MaxMindResponse {
   // Email
   email?: EmailData;
 
-  // Billing
-  billing?: AddressVerification;
+  // Billing address verification (Factors API)
+  billing_address?: AddressVerification;
 
-  // Shipping
+  // Shipping address verification (Factors API)
+  shipping_address?: AddressVerification;
+
+  // Legacy aliases retained for compatibility with any older code paths
+  billing?: AddressVerification;
   shipping?: AddressVerification;
 
   // Billing Phone

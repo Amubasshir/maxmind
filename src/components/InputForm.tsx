@@ -126,10 +126,24 @@ export default function InputForm({
       return;
     }
 
+    const resolvedShippingData: Partial<FormData> = sameAsBilling
+      ? {
+          shipping_first_name: formData.billing_first_name,
+          shipping_last_name: formData.billing_last_name,
+          shipping_address1: formData.billing_address1,
+          shipping_address2: formData.billing_address2,
+          shipping_city: formData.billing_city,
+          shipping_region: formData.billing_region,
+          shipping_postal: formData.billing_postal,
+          shipping_country: formData.billing_country,
+          shipping_phone: formData.billing_phone || formData.phone,
+        }
+      : shippingFormState;
+
     // Resolve shipping values based on checkbox state
     const finalData: FormData = {
       ...formData,
-      ...(sameAsBilling ? billingValues : shippingFormState),
+      ...resolvedShippingData,
     };
 
     onSubmit(finalData);

@@ -25,6 +25,9 @@ function buildAddressObject(
   data: FormData,
   prefix: 'billing' | 'shipping',
 ): AddressObject | null {
+  const countryValue = data[`${prefix}_country`];
+  const addressPhoneValue = data[`${prefix}_phone`] || data.phone;
+
   const fields: Record<string, string | undefined> = {
     first_name: data[`${prefix}_first_name`],
     last_name: data[`${prefix}_last_name`],
@@ -33,8 +36,8 @@ function buildAddressObject(
     city: data[`${prefix}_city`],
     region: data[`${prefix}_region`],
     postal: data[`${prefix}_postal`],
-    country: data[`${prefix}_country`],
-    phone_number: data[`${prefix}_phone`],
+    country: countryValue ? countryValue.toUpperCase() : undefined,
+    phone_number: addressPhoneValue,
   };
 
   // Filter out empty values
@@ -74,13 +77,6 @@ export function buildPayload(data: FormData): MaxMindPayload {
   if (data.email && data.email.trim()) {
     payload.email = {
       address: data.email.trim(),
-    };
-  }
-
-  // Phone: Billing phone maps to top-level phone
-  if (data.billing_phone && data.billing_phone.trim()) {
-    payload.phone = {
-      number: data.billing_phone.trim(),
     };
   }
 

@@ -63,8 +63,23 @@ export async function POST(request: NextRequest) {
     // Build the dynamic payload
     const payload = buildPayload(sanitizedBody);
 
+    console.log('minFraud payload phone debug:', {
+      billingPhoneInput: sanitizedBody.billing_phone,
+      shippingPhoneInput: sanitizedBody.shipping_phone,
+      customerPhoneInput: sanitizedBody.phone,
+      billingPhonePayload: payload.billing?.phone_number,
+      shippingPhonePayload: payload.shipping?.phone_number,
+    });
+
     // Call MaxMind API
     const response = await callMaxMindAPI(payload);
+
+    console.log('minFraud response phone debug:', {
+      billing_phone: response.billing_phone,
+      shipping_phone: response.shipping_phone,
+      warnings: response.warnings,
+      responseId: response.id,
+    });
 
     // Return the API response
     return NextResponse.json(response, { status: 200 });

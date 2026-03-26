@@ -17,6 +17,17 @@ export default function ResultDisplay({
     return null;
   }
 
+  const billingAddress = response?.billing_address ?? response?.billing;
+  const shippingAddress = response?.shipping_address ?? response?.shipping;
+
+  const formatOptionalBool = (value?: boolean) => {
+    if (value === undefined) {
+      return 'N/A';
+    }
+
+    return value ? 'Yes' : 'No';
+  };
+
   return (
     <div className="space-y-6 mt-6">
       {/* Copy JSON Button */}
@@ -264,29 +275,39 @@ export default function ResultDisplay({
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <span className="font-medium">Billing Is in IP Country:</span>{' '}
+            <span className="font-medium">
+              Billing postal code is in the city:
+            </span>{' '}
             <span className="text-gray-600">
-              {(response?.billing?.is_in_ip_country ?? false) ? 'Yes' : 'No'}
+              {formatOptionalBool(billingAddress?.is_postal_in_city)}
             </span>
           </div>
           <div>
-            <span className="font-medium">Billing Latitude:</span>{' '}
+            <span className="font-medium">Billing postal code latitude:</span>{' '}
             <span className="text-gray-600">
-              {response?.billing?.latitude ?? 'N/A'}
+              {billingAddress?.latitude ?? 'N/A'}
             </span>
           </div>
           <div>
-            <span className="font-medium">Billing Longitude:</span>{' '}
+            <span className="font-medium">Billing postal code longitude:</span>{' '}
             <span className="text-gray-600">
-              {response?.billing?.longitude ?? 'N/A'}
+              {billingAddress?.longitude ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">
-              Billing Distance to IP Location:
+              Billing postal code to IP address distance (kilometers):
             </span>{' '}
             <span className="text-gray-600">
-              {response?.billing?.distance_to_ip_location ?? 'N/A'}
+              {billingAddress?.distance_to_ip_location ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">
+              Billing address is in IP country:
+            </span>{' '}
+            <span className="text-gray-600">
+              {formatOptionalBool(billingAddress?.is_in_ip_country)}
             </span>
           </div>
         </div>
@@ -299,29 +320,47 @@ export default function ResultDisplay({
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <span className="font-medium">Shipping Is in IP Country:</span>{' '}
+            <span className="font-medium">
+              Shipping postal code is in the shipping city:
+            </span>{' '}
             <span className="text-gray-600">
-              {(response?.shipping?.is_in_ip_country ?? false) ? 'Yes' : 'No'}
+              {formatOptionalBool(shippingAddress?.is_postal_in_city)}
             </span>
           </div>
           <div>
-            <span className="font-medium">Shipping Latitude:</span>{' '}
+            <span className="font-medium">Shipping postal code latitude:</span>{' '}
             <span className="text-gray-600">
-              {response?.shipping?.latitude ?? 'N/A'}
+              {shippingAddress?.latitude ?? 'N/A'}
             </span>
           </div>
           <div>
-            <span className="font-medium">Shipping Longitude:</span>{' '}
+            <span className="font-medium">Shipping postal code longitude:</span>{' '}
             <span className="text-gray-600">
-              {response?.shipping?.longitude ?? 'N/A'}
+              {shippingAddress?.longitude ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">
-              Shipping Distance to IP Location:
+              Shipping postal code to IP address distance (kilometers):
             </span>{' '}
             <span className="text-gray-600">
-              {response?.shipping?.distance_to_ip_location ?? 'N/A'}
+              {shippingAddress?.distance_to_ip_location ?? 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">
+              Shipping address is in IP country:
+            </span>{' '}
+            <span className="text-gray-600">
+              {formatOptionalBool(shippingAddress?.is_in_ip_country)}
+            </span>
+          </div>
+          <div>
+            <span className="font-medium">
+              Shipping address to billing address distance (kilometers):
+            </span>{' '}
+            <span className="text-gray-600">
+              {shippingAddress?.distance_to_billing_address ?? 'N/A'}
             </span>
           </div>
         </div>
@@ -350,7 +389,7 @@ export default function ResultDisplay({
           <div>
             <span className="font-medium">Billing Phone Is Valid:</span>{' '}
             <span className="text-gray-600">
-              {(response?.billing_phone?.is_valid ?? false) ? 'Yes' : 'No'}
+              {formatOptionalBool(response?.billing_phone?.is_valid)}
             </span>
           </div>
           <div>
@@ -372,7 +411,7 @@ export default function ResultDisplay({
           <div>
             <span className="font-medium">Shipping Phone Is Valid:</span>{' '}
             <span className="text-gray-600">
-              {(response?.shipping_phone?.is_valid ?? false) ? 'Yes' : 'No'}
+              {formatOptionalBool(response?.shipping_phone?.is_valid)}
             </span>
           </div>
           <div>
@@ -384,7 +423,7 @@ export default function ResultDisplay({
           <div>
             <span className="font-medium">Shipping Phone Is VOIP:</span>{' '}
             <span className="text-gray-600">
-              {(response?.shipping_phone?.is_voip ?? false) ? 'Yes' : 'No'}
+              {formatOptionalBool(response?.shipping_phone?.is_voip)}
             </span>
           </div>
         </div>
