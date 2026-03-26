@@ -274,14 +274,14 @@ export default function ResultDisplay({
           Billing Address Verification
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
+          {/* <div>
             <span className="font-medium">
               Billing postal code is in the city:
             </span>{' '}
             <span className="text-gray-600">
               {formatOptionalBool(billingAddress?.is_postal_in_city)}
             </span>
-          </div>
+          </div> */}
           <div>
             <span className="font-medium">Billing postal code latitude:</span>{' '}
             <span className="text-gray-600">
@@ -319,14 +319,14 @@ export default function ResultDisplay({
           Shipping Address Verification
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
+          {/* <div>
             <span className="font-medium">
               Shipping postal code is in the shipping city:
             </span>{' '}
             <span className="text-gray-600">
               {formatOptionalBool(shippingAddress?.is_postal_in_city)}
             </span>
-          </div>
+          </div> */}
           <div>
             <span className="font-medium">Shipping postal code latitude:</span>{' '}
             <span className="text-gray-600">
