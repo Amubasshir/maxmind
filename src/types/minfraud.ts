@@ -1,0 +1,165 @@
+// Form input data - all fields are optional
+export interface FormData {
+  // Customer
+  full_name?: string;
+  email?: string;
+  phone?: string;
+
+  // Billing Address
+  billing_first_name?: string;
+  billing_last_name?: string;
+  billing_address1?: string;
+  billing_address2?: string;
+  billing_city?: string;
+  billing_region?: string;
+  billing_postal?: string;
+  billing_country?: string;
+  billing_phone?: string;
+
+  // Shipping Address
+  shipping_first_name?: string;
+  shipping_last_name?: string;
+  shipping_address1?: string;
+  shipping_address2?: string;
+  shipping_city?: string;
+  shipping_region?: string;
+  shipping_postal?: string;
+  shipping_country?: string;
+  shipping_phone?: string;
+
+  // Device / Network
+  ip_address?: string;
+}
+
+// Address object for API payload
+export interface AddressObject {
+  first_name?: string;
+  last_name?: string;
+  address?: string;
+  address_2?: string;
+  city?: string;
+  region?: string;
+  postal?: string;
+  country?: string;
+  phone_number?: string;
+}
+
+// API payload - dynamically built, only includes provided fields
+export interface MaxMindPayload {
+  device?: {
+    ip_address: string;
+  };
+  email?: {
+    address: string;
+  };
+  phone?: {
+    number: string;
+  };
+  billing?: AddressObject;
+  shipping?: AddressObject;
+}
+
+// IP Address Analysis
+export interface IPAddressData {
+  country?: {
+    iso_code?: string;
+    name?: string;
+    confidence?: number;
+  };
+  city?: {
+    names?: {
+      en?: string;
+    };
+    confidence?: number;
+  };
+  postal?: {
+    code?: string;
+    confidence?: number;
+  };
+  location?: {
+    latitude?: number;
+    longitude?: number;
+    accuracy_radius?: number;
+    time_zone?: string;
+  };
+  traits?: {
+    isp?: string;
+    organization?: string;
+    domain?: string;
+    user_type?: string;
+    is_anonymous?: boolean;
+    is_anonymous_vpn?: boolean;
+    is_hosting_provider?: boolean;
+    is_public_proxy?: boolean;
+    is_residential_proxy?: boolean;
+    is_tor_exit_node?: boolean;
+    connection_type?: string;
+  };
+  risk?: number;
+}
+
+// Email Analysis
+export interface EmailData {
+  address?: string;
+  domain?: string;
+  first_seen?: string;
+  is_free?: boolean;
+  is_high_risk?: boolean;
+  confidence?: number;
+  risk?: number;
+}
+
+// Address Verification
+export interface AddressVerification {
+  is_in_ip_country?: boolean;
+  latitude?: number;
+  longitude?: number;
+  distance_to_ip_location?: number;
+  is_postal_in_city?: boolean;
+  is_high_risk?: boolean;
+  risk?: number;
+}
+
+// Phone Analysis
+export interface PhoneData {
+  number?: string;
+  country?: {
+    iso_code?: string;
+    name?: string;
+    confidence?: number;
+  };
+  type?: string;
+  is_valid?: boolean;
+  is_mobile?: boolean;
+  is_prepaid?: boolean;
+  risk?: number;
+}
+
+// Full API response - all fields optional for safety
+export interface MaxMindResponse {
+  // Risk
+  risk_score?: number;
+  risk_score_reasons?: string[];
+
+  // IP Address
+  ip_address?: IPAddressData;
+
+  // Email
+  email?: EmailData;
+
+  // Billing
+  billing?: AddressVerification;
+
+  // Shipping
+  shipping?: AddressVerification;
+
+  // Billing Phone
+  billing_phone?: PhoneData;
+
+  // Shipping Phone
+  shipping_phone?: PhoneData;
+
+  // Additional fields that may be present
+  credits_remaining?: number;
+  id?: string;
+}
