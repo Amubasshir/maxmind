@@ -370,10 +370,10 @@ export default function ResultDisplay({
       <Card className="p-6">
         <h3 className="text-lg font-semibold mb-4">Phone Analysis</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
+          {/* <div>
             <span className="font-medium">Billing Phone Number:</span>{' '}
             <span className="text-gray-600">N/A</span>
-          </div>
+          </div> */}
           <div>
             <span className="font-medium">Billing Phone Country:</span>{' '}
             <span className="text-gray-600">
@@ -392,10 +392,10 @@ export default function ResultDisplay({
               {formatOptionalBool(response?.billing_phone?.is_valid)}
             </span>
           </div>
-          <div>
+          {/* <div>
             <span className="font-medium">Shipping Phone Number:</span>{' '}
             <span className="text-gray-600">N/A</span>
-          </div>
+          </div> */}
           <div>
             <span className="font-medium">Shipping Phone Country:</span>{' '}
             <span className="text-gray-600">
