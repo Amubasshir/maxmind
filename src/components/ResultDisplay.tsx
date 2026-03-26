@@ -195,45 +195,35 @@ export default function ResultDisplay({
           <div>
             <span className="font-medium">Email Address:</span>{' '}
             <span className="text-gray-600">
-              {response?.email?.address ?? 'N/A'}
+              <span className="text-xs text-gray-500">
+                (Not returned by API for privacy)
+              </span>
             </span>
           </div>
           <div>
             <span className="font-medium">Email Domain:</span>{' '}
             <span className="text-gray-600">
-              {typeof response?.email?.domain === 'string'
-                ? response?.email?.domain
-                : (response?.email?.domain?.domain ?? 'N/A')}
+              <span className="text-xs text-gray-500">
+                (Not returned by API for privacy)
+              </span>
             </span>
           </div>
           <div>
             <span className="font-medium">Domain First Seen:</span>{' '}
             <span className="text-gray-600">
-              {typeof response?.email?.domain === 'object' &&
-              response?.email?.domain !== null
-                ? ((response?.email?.domain as { first_seen?: string })
-                    ?.first_seen ?? 'N/A')
-                : 'N/A'}
+              {response?.email?.domain?.first_seen ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">Domain Risk:</span>{' '}
             <span className="text-gray-600">
-              {typeof response?.email?.domain === 'object' &&
-              response?.email?.domain !== null
-                ? ((response?.email?.domain as { risk?: number })?.risk ??
-                  'N/A')
-                : 'N/A'}
+              {response?.email?.domain?.risk ?? 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">Domain Volume:</span>{' '}
             <span className="text-gray-600">
-              {typeof response?.email?.domain === 'object' &&
-              response?.email?.domain !== null
-                ? ((response?.email?.domain as { volume?: number })?.volume ??
-                  'N/A')
-                : 'N/A'}
+              {response?.email?.domain?.volume ?? 'N/A'}
             </span>
           </div>
           <div>
@@ -352,7 +342,9 @@ export default function ResultDisplay({
           <div>
             <span className="font-medium">Billing Phone Number:</span>{' '}
             <span className="text-gray-600">
-              {response?.billing_phone?.number ?? 'N/A'}
+              <span className="text-xs text-gray-500">
+                (Not returned by API for privacy)
+              </span>
             </span>
           </div>
           <div>
@@ -364,7 +356,7 @@ export default function ResultDisplay({
           <div>
             <span className="font-medium">Billing Phone Type:</span>{' '}
             <span className="text-gray-600">
-              {response?.billing_phone?.type ?? 'N/A'}
+              {response?.billing_phone?.number_type ?? 'N/A'}
             </span>
           </div>
           <div>
@@ -376,7 +368,9 @@ export default function ResultDisplay({
           <div>
             <span className="font-medium">Shipping Phone Number:</span>{' '}
             <span className="text-gray-600">
-              {response?.shipping_phone?.number ?? 'N/A'}
+              <span className="text-xs text-gray-500">
+                (Not returned by API for privacy)
+              </span>
             </span>
           </div>
           <div>
@@ -388,7 +382,7 @@ export default function ResultDisplay({
           <div>
             <span className="font-medium">Shipping Phone Type:</span>{' '}
             <span className="text-gray-600">
-              {response?.shipping_phone?.type ?? 'N/A'}
+              {response?.shipping_phone?.number_type ?? 'N/A'}
             </span>
           </div>
           <div>

@@ -99,17 +99,17 @@ export interface IPAddressData {
 }
 
 // Email Domain Analysis (nested object)
+// Note: MaxMind API does NOT return the domain name string, only analysis data
 export interface EmailDomainData {
-  domain?: string;
   first_seen?: string;
   risk?: number;
   volume?: number;
 }
 
 // Email Analysis
+// Note: MaxMind API does NOT return the email address for privacy/security
 export interface EmailData {
-  address?: string;
-  domain?: string | EmailDomainData;
+  domain?: EmailDomainData;
   first_seen?: string;
   is_free?: boolean;
   is_disposable?: boolean;
@@ -130,14 +130,14 @@ export interface AddressVerification {
 }
 
 // Phone Analysis
+// Note: MaxMind API does NOT return the phone number for privacy/security
 export interface PhoneData {
-  number?: string;
   country?: {
     iso_code?: string;
     name?: string;
     confidence?: number;
   };
-  type?: string;
+  number_type?: string;
   is_valid?: boolean;
   is_mobile?: boolean;
   is_prepaid?: boolean;
