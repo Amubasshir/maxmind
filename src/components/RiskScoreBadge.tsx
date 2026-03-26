@@ -31,10 +31,10 @@ export default function RiskScoreBadge({ score }: RiskScoreBadgeProps) {
 
   return (
     <div
-      className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg ${colorClass}`}
+      className={`inline-flex items-center gap-3 px-8 py-4 rounded-lg ${colorClass}`}
     >
-      <span className="text-3xl font-bold">{score ?? 'N/A'}</span>
-      <span className="text-sm font-medium">{label}</span>
+      <span className="text-6xl font-bold">{score ?? 'N/A'}</span>
+      <span className="text-lg font-semibold">{label}</span>
     </div>
   );
 }

@@ -166,7 +166,7 @@ This is a required UX feature. Implement it exactly as described here.
 - The checkbox sits at the **top of the Shipping Address section**, above all shipping fields.
 - Label: `"Same as billing address"`
 - Default state: **unchecked**
-- When **checked**: shipping fields mirror billing fields in real-time and are visually disabled (dimmed, not editable)
+- When **checked**: shipping fields mirror billing fields in real-time
 - When **unchecked**: shipping fields become editable again; mirrored values remain but can be changed
 - If billing fields change while checkbox is checked: shipping fields update instantly
 - On **Clear Form**: checkbox resets to unchecked, shipping fields clear

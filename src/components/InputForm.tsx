@@ -362,7 +362,6 @@ export default function InputForm({
                 }}
                 disabled={sameAsBilling}
                 placeholder="John"
-                className={sameAsBilling ? 'bg-gray-100' : ''}
               />
             </div>
 
@@ -381,7 +380,6 @@ export default function InputForm({
                 }}
                 disabled={sameAsBilling}
                 placeholder="Doe"
-                className={sameAsBilling ? 'bg-gray-100' : ''}
               />
             </div>
 
@@ -400,7 +398,6 @@ export default function InputForm({
                 }}
                 disabled={sameAsBilling}
                 placeholder="123 Main St"
-                className={sameAsBilling ? 'bg-gray-100' : ''}
               />
             </div>
 
@@ -419,7 +416,6 @@ export default function InputForm({
                 }}
                 disabled={sameAsBilling}
                 placeholder="Apt 4B"
-                className={sameAsBilling ? 'bg-gray-100' : ''}
               />
             </div>
 
@@ -438,7 +434,6 @@ export default function InputForm({
                 }}
                 disabled={sameAsBilling}
                 placeholder="New York"
-                className={sameAsBilling ? 'bg-gray-100' : ''}
               />
             </div>
 
@@ -457,7 +452,6 @@ export default function InputForm({
                 }}
                 disabled={sameAsBilling}
                 placeholder="NY"
-                className={sameAsBilling ? 'bg-gray-100' : ''}
               />
             </div>
 
@@ -476,7 +470,6 @@ export default function InputForm({
                 }}
                 disabled={sameAsBilling}
                 placeholder="10001"
-                className={sameAsBilling ? 'bg-gray-100' : ''}
               />
             </div>
 
@@ -496,7 +489,6 @@ export default function InputForm({
                 disabled={sameAsBilling}
                 placeholder="US"
                 maxLength={2}
-                className={sameAsBilling ? 'bg-gray-100' : ''}
               />
             </div>
 
@@ -515,7 +507,6 @@ export default function InputForm({
                 }}
                 disabled={sameAsBilling}
                 placeholder="+1 555-123-4567"
-                className={sameAsBilling ? 'bg-gray-100' : ''}
               />
             </div>
           </div>
@@ -548,7 +539,7 @@ export default function InputForm({
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-4">
+        {/* <div className="flex gap-4">
           <Button
             type="submit"
             disabled={isLoading}
@@ -563,6 +554,53 @@ export default function InputForm({
             onClick={handleClearForm}
             disabled={isLoading}
             className="cursor-pointer"
+          >
+            Clear Form
+          </Button>
+        </div> */}
+        <div className="flex gap-4 pt-2">
+          {/* Primary CTA */}
+          <Button
+            type="submit"
+            disabled={isLoading}
+            className="
+      flex-1 relative overflow-hidden
+      bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700
+      hover:from-blue-500 hover:via-indigo-500 hover:to-blue-600 cursor-pointer
+      text-white font-semibold tracking-wide
+      shadow-lg shadow-blue-900/30
+      border border-white/10
+      backdrop-blur-xl
+      transition-all duration-300
+      hover:scale-[1.02] active:scale-[0.98]
+    "
+          >
+            <span className="relative z-10">
+              {isLoading ? 'Analyzing...' : 'Analyze Fraud Risk'}
+            </span>
+
+            {/* subtle glow effect */}
+            <span
+              className="
+      absolute inset-0 opacity-0 hover:opacity-100
+      bg-white/10 blur-xl transition duration-300
+    "
+            />
+          </Button>
+
+          {/* Secondary CTA */}
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={handleClearForm}
+            disabled={isLoading}
+            className="
+      text-gray-400 hover:text-white cursor-pointer
+      border border-white/10
+      hover:bg-white/5
+      backdrop-blur-md
+      transition-all duration-200
+    "
           >
             Clear Form
           </Button>

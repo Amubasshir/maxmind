@@ -98,12 +98,21 @@ export interface IPAddressData {
   risk?: number;
 }
 
+// Email Domain Analysis (nested object)
+export interface EmailDomainData {
+  domain?: string;
+  first_seen?: string;
+  risk?: number;
+  volume?: number;
+}
+
 // Email Analysis
 export interface EmailData {
   address?: string;
-  domain?: string;
+  domain?: string | EmailDomainData;
   first_seen?: string;
   is_free?: boolean;
+  is_disposable?: boolean;
   is_high_risk?: boolean;
   confidence?: number;
   risk?: number;
@@ -132,14 +141,31 @@ export interface PhoneData {
   is_valid?: boolean;
   is_mobile?: boolean;
   is_prepaid?: boolean;
+  is_voip?: boolean;
+  network_operator?: string;
   risk?: number;
+}
+
+// Risk Score Reason
+export interface RiskScoreReason {
+  multiplier: number;
+  reasons: Array<{
+    reason: string;
+  }>;
+}
+
+// Warning
+export interface Warning {
+  code: string;
+  warning: string;
+  input_pointer?: string;
 }
 
 // Full API response - all fields optional for safety
 export interface MaxMindResponse {
   // Risk
   risk_score?: number;
-  risk_score_reasons?: string[];
+  risk_score_reasons?: RiskScoreReason[];
 
   // IP Address
   ip_address?: IPAddressData;
@@ -158,6 +184,9 @@ export interface MaxMindResponse {
 
   // Shipping Phone
   shipping_phone?: PhoneData;
+
+  // Warnings
+  warnings?: Warning[];
 
   // Additional fields that may be present
   credits_remaining?: number;

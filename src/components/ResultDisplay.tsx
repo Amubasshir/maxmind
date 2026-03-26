@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import type { MaxMindResponse } from '@/types/minfraud';
 import RiskScoreBadge from './RiskScoreBadge';
@@ -21,15 +20,15 @@ export default function ResultDisplay({
   return (
     <div className="space-y-6 mt-6">
       {/* Copy JSON Button */}
-      <div className="flex justify-end">
+      {/* <div className="flex justify-end">
         <Button variant="outline" onClick={onCopyJson}>
           Copy JSON
         </Button>
-      </div>
+      </div> */}
 
       {/* Risk Score */}
       <Card className="p-6">
-        <h3 className="text-lg font-semibold mb-4">Risk Score</h3>
+        <h2 className="text-lg font-semibold mb-4">Risk Score</h2>
         <div className="flex items-center justify-center">
           <RiskScoreBadge score={response?.risk_score} />
         </div>
@@ -210,19 +209,31 @@ export default function ResultDisplay({
           <div>
             <span className="font-medium">Domain First Seen:</span>{' '}
             <span className="text-gray-600">
-              {response?.email?.domain?.first_seen ?? 'N/A'}
+              {typeof response?.email?.domain === 'object' &&
+              response?.email?.domain !== null
+                ? ((response?.email?.domain as { first_seen?: string })
+                    ?.first_seen ?? 'N/A')
+                : 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">Domain Risk:</span>{' '}
             <span className="text-gray-600">
-              {response?.email?.domain?.risk ?? 'N/A'}
+              {typeof response?.email?.domain === 'object' &&
+              response?.email?.domain !== null
+                ? ((response?.email?.domain as { risk?: number })?.risk ??
+                  'N/A')
+                : 'N/A'}
             </span>
           </div>
           <div>
             <span className="font-medium">Domain Volume:</span>{' '}
             <span className="text-gray-600">
-              {response?.email?.domain?.volume ?? 'N/A'}
+              {typeof response?.email?.domain === 'object' &&
+              response?.email?.domain !== null
+                ? ((response?.email?.domain as { volume?: number })?.volume ??
+                  'N/A')
+                : 'N/A'}
             </span>
           </div>
           <div>
