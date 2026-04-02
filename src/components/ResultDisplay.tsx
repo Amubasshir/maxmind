@@ -429,28 +429,6 @@ export default function ResultDisplay({
         </div>
       </Card>
 
-      {/* Warnings */}
-      {response?.warnings && response.warnings.length > 0 && (
-        <Card className="p-6">
-          <h3 className="text-lg font-semibold mb-4">Warnings</h3>
-          <div className="space-y-2">
-            {response.warnings.map((warning, index) => (
-              <div
-                key={index}
-                className="text-sm text-yellow-600 border-l-4 border-yellow-400 pl-3 py-1"
-              >
-                <p className="font-medium">{warning.code}</p>
-                <p className="text-gray-600">{warning.warning}</p>
-                {warning.input_pointer && (
-                  <p className="text-xs text-gray-500 mt-1">
-                    Field: {warning.input_pointer}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-        </Card>
-      )}
     </div>
   );
 }
