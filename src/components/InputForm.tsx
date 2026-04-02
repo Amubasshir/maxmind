@@ -7,7 +7,22 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { isValidEmail, isValidIP } from '@/lib/validators';
 import type { FormData } from '@/types/minfraud';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Check, ChevronsUpDown } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
 interface InputFormProps {
   onSubmit: (data: FormData) => void;
@@ -36,6 +51,33 @@ export default function InputForm({
 
   // Field errors
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+  // Airtable integration state
+  const [airtableData, setAirtableData] = useState<any[]>([]);
+  const [isAirtableLoading, setIsAirtableLoading] = useState(false);
+  const [openCombobox, setOpenCombobox] = useState(false);
+  const [selectedCustomerId, setSelectedCustomerId] = useState('');
+
+  // Fetch Airtable data
+  useEffect(() => {
+    const fetchAirtable = async () => {
+      try {
+        setIsAirtableLoading(true);
+        const res = await fetch('/api/airtable');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.records) {
+            setAirtableData(data.records);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch Airtable data:', error);
+      } finally {
+        setIsAirtableLoading(false);
+      }
+    };
+    fetchAirtable();
+  }, []);
 
   // Handle input change
   const handleInputChange = (field: keyof FormData, value: string) => {
@@ -177,6 +219,133 @@ export default function InputForm({
             {fieldErrors._form}
           </div>
         )}
+
+        {/* Airtable Customers Dropdown */}
+        <div className="space-y-4 pb-6 mb-6 border-b border-gray-200 dark:border-gray-800">
+          <h3 className="text-lg font-semibold">Load from Airtable</h3>
+          <div className="flex flex-col space-y-2">
+            <Label>Select Customer</Label>
+            <Popover open={openCombobox} onOpenChange={setOpenCombobox}>
+              <PopoverTrigger render={<Button variant="outline" className="w-full justify-between" disabled={isAirtableLoading} />}>
+                  {isAirtableLoading
+                    ? 'Loading customers...'
+                    : selectedCustomerId
+                    ? airtableData.find((record) => record.id === selectedCustomerId)?.fields?.['Customer Name'] ||
+                      airtableData.find((record) => record.id === selectedCustomerId)?.fields?.['Customer Email'] || 'Selected Customer'
+                    : 'Search and select a customer...'}
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              </PopoverTrigger>
+              <PopoverContent className="w-[--radix-popover-trigger-width] p-0 bg-gray-900" align="start">
+                <Command>
+                  <CommandInput placeholder="Search customer (Name, Email)..." />
+                  <CommandList>
+                    <CommandEmpty>No customer found.</CommandEmpty>
+                    <CommandGroup>
+                      {airtableData.map((record) => {
+                        const fields = record.fields || {};
+                        // Match Airtable data structure
+                        const name = fields['Customer Name'] || fields['Name'] || record.id || 'Unnamed';
+                        const email = fields['Customer Email'] || fields['Email'] || '';
+                        
+                        // We use the ID + Name + Email as Search string so people can search by Name or Email
+                        const searchValue = `${name} ${email} ${record.id}`;
+                        
+                        return (
+                          <CommandItem
+                            key={record.id}
+                            value={searchValue}
+                            onSelect={() => {
+                              const isSelected = record.id === selectedCustomerId;
+                              setSelectedCustomerId(isSelected ? '' : record.id);
+                              setOpenCombobox(false);
+
+                              // Auto-fill logic
+                              if (!isSelected) {
+                                const mapCountry = (c?: string) => {
+                                  if (!c) return '';
+                                  if (c.length === 2) return c.toUpperCase();
+                                  const cl = c.toLowerCase().trim();
+                                  if (cl === 'united states' || cl === 'usa') return 'US';
+                                  if (cl === 'united kingdom' || cl === 'uk') return 'GB';
+                                  if (cl === 'canada') return 'CA';
+                                  if (cl === 'australia') return 'AU';
+                                  return c.substring(0, 2).toUpperCase();
+                                };
+
+                                const matchShipping = fields['Billing matches Shipping'] === true;
+                                setSameAsBilling(matchShipping);
+
+                                const newBillingValues: Partial<FormData> = {
+                                  billing_first_name: fields['Billing First Name'] || '',
+                                  billing_last_name: fields['Billing Last Name'] || '',
+                                  billing_address1: fields['Billing Address 1'] || '',
+                                  billing_address2: fields['Billing Address 2'] || '',
+                                  billing_city: fields['Billing City'] || '',
+                                  billing_region: fields['Billing Province'] || '',
+                                  billing_postal: fields['Billing ZIP'] || '',
+                                  billing_country: mapCountry(fields['Billing Country']),
+                                  billing_phone: fields['Billing Phone'] || fields['Phone'] || '',
+                                };
+
+                                setFormData(prev => ({
+                                  ...prev,
+                                  full_name: fields['Customer Name'] || '',
+                                  email: fields['Customer Email'] || '',
+                                  phone: fields['Phone'] || fields['Billing Phone'] || '',
+                                  ip_address: fields['Browser IP'] || '',
+                                  ...newBillingValues,
+                                }));
+
+                                setBillingValues(newBillingValues);
+
+                                if (!matchShipping) {
+                                  setShippingFormState({
+                                    shipping_first_name: fields['Shipping First Name'] || '',
+                                    shipping_last_name: fields['Shipping Last Name'] || '',
+                                    shipping_address1: fields['Shipping Address 1'] || '',
+                                    shipping_address2: fields['Shipping Address 2'] || '',
+                                    shipping_city: fields['Shipping City'] || '',
+                                    shipping_region: fields['Shipping Province'] || fields['Shipping Provence'] || '',
+                                    shipping_postal: fields['Shipping ZIP'] || '',
+                                    shipping_country: mapCountry(fields['Shipping Country']),
+                                    shipping_phone: fields['Shipping Phone'] || fields['Phone'] || '',
+                                  });
+                                } else {
+                                  // Map shipping to billing to match visual state since checkbox is checked
+                                  const newShippingValues: Partial<FormData> = {};
+                                  Object.keys(newBillingValues).forEach((key) => {
+                                    if (key.startsWith('billing_')) {
+                                      const shippingKey = key.replace('billing_', 'shipping_');
+                                      newShippingValues[shippingKey as keyof FormData] =
+                                        newBillingValues[key as keyof FormData];
+                                    }
+                                  });
+                                  setShippingFormState(newShippingValues);
+                                }
+                                
+                                setFieldErrors({});
+                              }
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                selectedCustomerId === record.id ? "opacity-100" : "opacity-0"
+                              )}
+                            />
+                            <div className="flex flex-col">
+                              <span className="font-medium">{name}</span>
+                            </div>
+                          </CommandItem>
+                        );
+                      })}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+          </div>
+        </div>
 
         {/* Customer Section */}
         <div className="space-y-4">
