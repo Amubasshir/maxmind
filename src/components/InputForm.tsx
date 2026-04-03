@@ -230,12 +230,12 @@ export default function InputForm({
                   {isAirtableLoading
                     ? 'Loading customers...'
                     : selectedCustomerId
-                    ? airtableData.find((record) => record.id === selectedCustomerId)?.fields?.['Customer Name'] ||
+                    ? airtableData.find((record) => record.id === selectedCustomerId)?.fields?.['Case Name'] ||
                       airtableData.find((record) => record.id === selectedCustomerId)?.fields?.['Customer Email'] || 'Selected Customer'
                     : 'Search and select a customer...'}
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </PopoverTrigger>
-              <PopoverContent className="w-[--radix-popover-trigger-width] p-0 bg-gray-900" align="start">
+              <PopoverContent className="w-[--radix-popover-trigger-width] p-0 bg-white dark:bg-gray-900" align="start">
                 <Command>
                   <CommandInput placeholder="Search customer (Name, Email)..." />
                   <CommandList>
@@ -244,7 +244,7 @@ export default function InputForm({
                       {airtableData.map((record) => {
                         const fields = record.fields || {};
                         // Match Airtable data structure
-                        const name = fields['Customer Name'] || fields['Name'] || record.id || 'Unnamed';
+                        const name = fields['Case Name'] || fields['Name'] || record.id || 'Unnamed';
                         const email = fields['Customer Email'] || fields['Email'] || '';
                         
                         // We use the ID + Name + Email as Search string so people can search by Name or Email
@@ -289,7 +289,7 @@ export default function InputForm({
 
                                 setFormData(prev => ({
                                   ...prev,
-                                  full_name: fields['Customer Name'] || '',
+                                  full_name: fields['Case Name'] || '',
                                   email: fields['Customer Email'] || '',
                                   phone: fields['Phone'] || fields['Billing Phone'] || '',
                                   ip_address: fields['Browser IP'] || '',
