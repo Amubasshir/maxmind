@@ -46,7 +46,7 @@ export default function ResultDisplay({
       </Card>
 
       {/* Risk Score Reasons */}
-      <Card className="p-6">
+      {/* <Card className="p-6">
         <h3 className="text-lg font-semibold mb-4">Risk Score Reasons</h3>
         {response?.risk_score_reasons &&
         response?.risk_score_reasons.length > 0 ? (
@@ -69,7 +69,7 @@ export default function ResultDisplay({
         ) : (
           <p className="text-gray-500">No risk score reasons available</p>
         )}
-      </Card>
+      </Card> */}
 
       {/* IP Address Analysis */}
       <Card className="p-6">
