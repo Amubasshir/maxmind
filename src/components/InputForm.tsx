@@ -289,7 +289,7 @@ export default function InputForm({
 
                                 setFormData(prev => ({
                                   ...prev,
-                                  full_name: fields['Case Name'] || '',
+                                  full_name: fields['Customer Name'] || '',
                                   email: fields['Customer Email'] || '',
                                   phone: fields['Phone'] || fields['Billing Phone'] || '',
                                   ip_address: fields['Browser IP'] || '',
