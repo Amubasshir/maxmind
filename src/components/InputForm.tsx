@@ -343,7 +343,7 @@ export default function InputForm({
           <div className="flex flex-col space-y-2">
             <Label htmlFor="customer-select">Select Customer</Label>
             <Popover open={openCombobox} onOpenChange={setOpenCombobox}>
-              <PopoverTrigger asChild>
+              <PopoverTrigger >
                 <Button 
                   id="customer-select"
                   variant="outline" 
